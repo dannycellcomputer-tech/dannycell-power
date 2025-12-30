@@ -1,0 +1,82 @@
+/* Estilos Globales manuales */
+body {
+  background-color: #050505;
+  color: #fff;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Scrollbar Personalizado */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a; 
+}
+::-webkit-scrollbar-thumb {
+  background: #333; 
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00f2ea; 
+}
+
+/* Video Fullscreen Override */
+video:fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: contain;
+  background: #000;
+}
+
+/* Selección de texto */
+::selection {
+  background: #00f2ea;
+  color: #000;
+}
+
+/* Utilities personalizados */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 2px;
+}
+
+/* FONDO TECH CYBERPUNK GLOBAL */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -50;
+  pointer-events: none;
+  
+  background: 
+      radial-gradient(circle at 50% 0%, rgba(0, 242, 234, 0.15) 0%, transparent 60%),
+      radial-gradient(circle at 90% 90%, rgba(112, 0, 255, 0.08) 0%, transparent 50%),
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      repeating-linear-gradient(
+          45deg, 
+          transparent, 
+          transparent 60px, 
+          rgba(0, 242, 234, 0.05) 60px, 
+          rgba(0, 242, 234, 0.05) 62px
+      );
+      
+  background-size: 
+      100% 100%, 
+      100% 100%, 
+      40px 40px,
+      40px 40px, 
+      100% 100%;
+}
