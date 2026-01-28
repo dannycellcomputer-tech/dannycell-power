@@ -53,7 +53,7 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <h4 className="text-white font-bold text-lg uppercase tracking-wider mb-1">Línea Directa</h4>
-                    <p className="text-gray-300 text-lg font-medium">+57 300 501 6723</p>
+                    <p className="text-gray-300 text-lg font-medium">+57 320 633 8184</p>
                     <a 
                       href={`https://wa.me/${WHATSAPP_NUMBER}`} 
                       target="_blank" 

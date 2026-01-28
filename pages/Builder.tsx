@@ -4,12 +4,14 @@ import { WHATSAPP_NUMBER, PRODUCTS } from '../constants';
 import { Product } from '../types';
 
 const Builder: React.FC = () => {
-  const [selectedProduct, setSelectedProduct] = useState<Product>(PRODUCTS[0]);
-  const [selectedColor, setSelectedColor] = useState<string>(PRODUCTS[0].availableColors?.[0] || 'Negro');
+  // Solo mostrar motos eléctricas en el builder
+  const motorcycleProducts = PRODUCTS.filter(p => p.type === 'motorcycle');
+  const [selectedProduct, setSelectedProduct] = useState<Product>(motorcycleProducts[0]);
+  const [selectedColor, setSelectedColor] = useState<string>(motorcycleProducts[0].availableColors?.[0] || 'Negro');
 
-  const availableMotors = Array.from(new Set(PRODUCTS.map(p => p.specs.motor)));
-  const availableBatteries = Array.from(new Set(PRODUCTS.map(p => p.specs.battery)));
-  const availableRanges = Array.from(new Set(PRODUCTS.map(p => p.specs.autonomy)));
+  const availableMotors = Array.from(new Set(motorcycleProducts.map(p => (p.specs as any).motor)));
+  const availableBatteries = Array.from(new Set(motorcycleProducts.map(p => (p.specs as any).battery)));
+  const availableRanges = Array.from(new Set(motorcycleProducts.map(p => (p.specs as any).autonomy)));
 
   useEffect(() => {
     if (selectedProduct.availableColors && !selectedProduct.availableColors.includes(selectedColor)) {
@@ -19,25 +21,25 @@ const Builder: React.FC = () => {
 
   const handleMotorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       const val = e.target.value;
-      const match = PRODUCTS.find(p => p.specs.motor === val);
+      const match = motorcycleProducts.find(p => (p.specs as any).motor === val);
       if (match) setSelectedProduct(match);
   };
 
   const handleBatteryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       const val = e.target.value;
-      const match = PRODUCTS.find(p => p.specs.battery === val);
+      const match = motorcycleProducts.find(p => (p.specs as any).battery === val);
       if (match) setSelectedProduct(match);
   };
 
   const handleRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       const val = e.target.value;
-      const match = PRODUCTS.find(p => p.specs.autonomy === val);
+      const match = motorcycleProducts.find(p => (p.specs as any).autonomy === val);
       if (match) setSelectedProduct(match);
   };
 
   const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       const val = e.target.value;
-      const match = PRODUCTS.find(p => p.id === val);
+      const match = motorcycleProducts.find(p => p.id === val);
       if (match) setSelectedProduct(match);
   };
 
@@ -45,9 +47,9 @@ const Builder: React.FC = () => {
     const message = `👋 Hola DannyCell Power, estoy usando el Configurador Web.\n\n` +
       `He seleccionado el modelo: *${selectedProduct.name}*\n` +
       `🛠️ Especificaciones:\n` +
-      `- Motor: ${selectedProduct.specs.motor}\n` +
-      `- Batería: ${selectedProduct.specs.battery}\n` +
-      `- Rango: ${selectedProduct.specs.autonomy}\n` +
+      `- Motor: ${(selectedProduct.specs as any).motor}\n` +
+      `- Batería: ${(selectedProduct.specs as any).battery}\n` +
+      `- Rango: ${(selectedProduct.specs as any).autonomy}\n` +
       `🎨 Color deseado: *${selectedColor}*\n\n` +
       `Me gustaría confirmar disponibilidad y precio actual (${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(selectedProduct.price)}).`;
 
@@ -80,7 +82,7 @@ const Builder: React.FC = () => {
                              <Layers size={10} className="md:w-3 md:h-3" /> {selectedProduct.name}
                         </div>
                         <h2 className="text-3xl md:text-5xl font-black text-white/10 uppercase italic absolute top-8 left-0 whitespace-nowrap pointer-events-none select-none">
-                            {selectedProduct.specs.motor.split(' ')[0]}
+                            {(selectedProduct.specs as any).motor.split(' ')[0]}
                         </h2>
                     </div>
 
@@ -101,7 +103,7 @@ const Builder: React.FC = () => {
                     <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-20 flex gap-2 md:gap-4">
                          <div className="bg-black/60 backdrop-blur-md p-3 md:p-4 rounded-xl md:rounded-2xl border border-white/10 text-center min-w-[80px] md:min-w-[100px] hover:border-brand-primary/50 transition-colors">
                              <span className="block text-gray-400 text-[9px] md:text-[10px] font-bold uppercase tracking-wider mb-1">Velocidad</span>
-                             <span className="block text-sm md:text-xl font-black text-white">{selectedProduct.specs.maxSpeed}</span>
+                             <span className="block text-sm md:text-xl font-black text-white">{(selectedProduct.specs as any).maxSpeed}</span>
                          </div>
                          <div className="bg-black/60 backdrop-blur-md p-3 md:p-4 rounded-xl md:rounded-2xl border border-white/10 text-center min-w-[80px] md:min-w-[100px] hover:border-brand-primary/50 transition-colors">
                              <span className="block text-gray-400 text-[9px] md:text-[10px] font-bold uppercase tracking-wider mb-1">Precio</span>
@@ -157,7 +159,7 @@ const Builder: React.FC = () => {
                                 <span className="text-[9px] md:text-[10px] text-brand-accent bg-brand-accent/10 px-2 py-0.5 rounded">Real Specs</span>
                             </label>
                             <select 
-                                value={selectedProduct.specs.motor} 
+                                value={(selectedProduct.specs as any).motor} 
                                 onChange={handleMotorChange} 
                                 className="w-full p-3 md:p-4 bg-[#0a0a0a] border border-white/10 text-white rounded-xl focus:border-brand-accent outline-none font-bold transition-all hover:border-brand-accent/50 cursor-pointer text-sm md:text-base"
                             >
@@ -173,7 +175,7 @@ const Builder: React.FC = () => {
                                 <span className="text-[9px] md:text-[10px] text-brand-secondary bg-brand-secondary/10 px-2 py-0.5 rounded">Real Specs</span>
                             </label>
                             <select 
-                                value={selectedProduct.specs.battery} 
+                                value={(selectedProduct.specs as any).battery} 
                                 onChange={handleBatteryChange} 
                                 className="w-full p-3 md:p-4 bg-[#0a0a0a] border border-white/10 text-white rounded-xl focus:border-brand-secondary outline-none font-bold transition-all hover:border-brand-secondary/50 cursor-pointer text-sm md:text-base"
                             >
@@ -189,7 +191,7 @@ const Builder: React.FC = () => {
                                 <span className="text-[9px] md:text-[10px] text-green-500 bg-green-500/10 px-2 py-0.5 rounded">Real Specs</span>
                             </label>
                             <select 
-                                value={selectedProduct.specs.autonomy} 
+                                value={(selectedProduct.specs as any).autonomy} 
                                 onChange={handleRangeChange} 
                                 className="w-full p-3 md:p-4 bg-[#0a0a0a] border border-white/10 text-white rounded-xl focus:border-green-500 outline-none font-bold transition-all hover:border-green-500/50 cursor-pointer text-sm md:text-base"
                             >

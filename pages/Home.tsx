@@ -1,9 +1,117 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Quote, Truck, Package, ShieldCheck, Zap, Battery, Wind, Wallet, Leaf, Clock, CreditCard, CheckCircle, Plus, Minus, HelpCircle, MapPin, Navigation, Fuel, XCircle, Calculator, TrendingDown, Brain, Sparkles } from 'lucide-react';
+import { ArrowRight, Star, Quote, Truck, Package, ShieldCheck, Zap, Battery, Wind, Wallet, Leaf, Clock, CreditCard, CheckCircle, Plus, Minus, HelpCircle, MapPin, Navigation, Fuel, XCircle, Calculator, TrendingDown, Brain, Sparkles, Smartphone, Camera, Shield, Wifi, ChevronLeft, ChevronRight } from 'lucide-react';
 import { PRODUCTS, TESTIMONIALS, WHATSAPP_NUMBER } from '../constants';
 import ProductCard from '../components/ProductCard';
 import { useStore } from '../context/StoreContext';
+
+// Phone Calculator Component
+const PhoneCalculator: React.FC = () => {
+  const [selectedPhone, setSelectedPhone] = useState('iphone');
+  
+  const phonePrices: Record<string, { dannyCell: number; otherStore: number; savings: number; percentage: number; name: string }> = {
+    'iphone': { 
+      dannyCell: 5200000, 
+      otherStore: 6500000, 
+      savings: 1300000, 
+      percentage: 20,
+      name: 'iPhone 15 Pro'
+    },
+    'samsung': { 
+      dannyCell: 4800000, 
+      otherStore: 5800000, 
+      savings: 1000000, 
+      percentage: 17,
+      name: 'Samsung S24 Ultra'
+    },
+    'xiaomi': { 
+      dannyCell: 3500000, 
+      otherStore: 4200000, 
+      savings: 700000, 
+      percentage: 17,
+      name: 'Xiaomi 14 Pro'
+    },
+    'redmi': { 
+      dannyCell: 1800000, 
+      otherStore: 2200000, 
+      savings: 400000, 
+      percentage: 18,
+      name: 'Redmi Note 13 Pro'
+    }
+  };
+
+  const currentPhone = phonePrices[selectedPhone];
+
+  return (
+    <div className="bg-[#111] p-8 lg:p-10 rounded-3xl border border-white/10">
+      <div className="flex items-center gap-3 mb-6">
+        <Calculator className="text-brand-secondary" size={24} />
+        <h3 className="text-xl lg:text-2xl font-black text-white">Comparador de Precios</h3>
+      </div>
+      
+      <div className="space-y-6">
+        <div>
+          <label className="block text-sm text-gray-400 mb-2">Selecciona un Celular</label>
+          <div className="grid grid-cols-2 gap-3">
+            <button 
+              onClick={() => setSelectedPhone('iphone')}
+              className={`bg-white/5 hover:bg-brand-secondary/20 border border-white/10 hover:border-brand-secondary/50 rounded-lg py-3 text-white font-medium transition-all hover:scale-105 hover:shadow-lg hover:shadow-brand-secondary/20 ${
+                selectedPhone === 'iphone' ? 'bg-brand-secondary/20 border-2 border-brand-secondary/50 scale-105 shadow-lg shadow-brand-secondary/20' : ''
+              }`}
+            >
+              iPhone 15 Pro
+            </button>
+            <button 
+              onClick={() => setSelectedPhone('samsung')}
+              className={`bg-white/5 hover:bg-brand-secondary/20 border border-white/10 hover:border-brand-secondary/50 rounded-lg py-3 text-white font-medium transition-all hover:scale-105 hover:shadow-lg hover:shadow-brand-secondary/20 ${
+                selectedPhone === 'samsung' ? 'bg-brand-secondary/20 border-2 border-brand-secondary/50 scale-105 shadow-lg shadow-brand-secondary/20' : ''
+              }`}
+            >
+              Samsung S24 Ultra
+            </button>
+            <button 
+              onClick={() => setSelectedPhone('xiaomi')}
+              className={`bg-white/5 hover:bg-brand-secondary/20 border border-white/10 hover:border-brand-secondary/50 rounded-lg py-3 text-white font-medium transition-all hover:scale-105 hover:shadow-lg hover:shadow-brand-secondary/20 ${
+                selectedPhone === 'xiaomi' ? 'bg-brand-secondary/20 border-2 border-brand-secondary/50 scale-105 shadow-lg shadow-brand-secondary/20' : ''
+              }`}
+            >
+              Xiaomi 14 Pro
+            </button>
+            <button 
+              onClick={() => setSelectedPhone('redmi')}
+              className={`bg-white/5 hover:bg-brand-secondary/20 border border-white/10 hover:border-brand-secondary/50 rounded-lg py-3 text-white font-medium transition-all hover:scale-105 hover:shadow-lg hover:shadow-brand-secondary/20 ${
+                selectedPhone === 'redmi' ? 'bg-brand-secondary/20 border-2 border-brand-secondary/50 scale-105 shadow-lg shadow-brand-secondary/20' : ''
+              }`}
+            >
+              Redmi Note 13 Pro
+            </button>
+          </div>
+        </div>
+
+        <div className="border-t border-white/10 pt-6">
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <h4 className="text-sm text-gray-400 mb-2">Tiendas Competidoras</h4>
+              <div className="text-2xl font-black text-red-400">{new Intl.NumberFormat('es-CO').format(currentPhone.otherStore)}</div>
+              <div className="text-xs text-gray-500">*Precio promedio mercado</div>
+            </div>
+            <div>
+              <h4 className="text-sm text-gray-400 mb-2">DannyCell</h4>
+              <div className="text-2xl font-black text-green-400">{new Intl.NumberFormat('es-CO').format(currentPhone.dannyCell)}</div>
+              <div className="text-xs text-gray-500">*Precio especial</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-white/10 pt-6">
+          <h4 className="text-sm text-gray-400 mb-2">Tu Ahorro</h4>
+          <div className="text-3xl lg:text-4xl font-black text-brand-secondary">{new Intl.NumberFormat('es-CO').format(currentPhone.savings)}</div>
+          <div className="text-sm text-green-400">Ahorras un {currentPhone.percentage}% en {currentPhone.name}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // FAQ Item Component
 const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, answer }) => {
@@ -71,10 +179,136 @@ const Home: React.FC = () => {
     {
         q: "¿Tienen garantía?",
         a: "Sí, ofrecemos garantía directa de 12 meses en motor y controlador, y 6 meses en batería por defectos de fábrica. Además, contamos con taller especializado y repuestos originales para todos nuestros modelos."
+    },
+    {
+      q: "¿Los celulares son originales?",
+      a: "Sí, todos nuestros celulares son 100% originales con garantía oficial del fabricante. Trabajamos directamente con distribuidores autorizados para garantizar autenticidad y calidad."
+    },
+    {
+      q: "¿Qué garantía tienen los celulares?",
+      a: "Ofrecemos 1 año de garantía oficial del fabricante en todos nuestros celulares. Además, incluimos soporte técnico gratuito durante todo el período de garantía."
+    },
+    {
+      q: "¿Los celulares vienen desbloqueados?",
+      a: "Sí, todos nuestros celulares vienen completamente desbloqueados para usar con cualquier operador de Colombia. Puedes usar tu chip actual o cambiar de operador cuando quieras sin restricciones."
+    },
+    {
+      q: "¿Incluyen accesorios originales?",
+      a: "Sí, cada celular incluye su caja sellada con todos los accesorios originales del fabricante: cargador, cable, audífonos y documentación oficial."
+    },
+    {
+      q: "¿Puedo financiar un celular?",
+      a: "Sí, ofrecemos planes de financiamiento hasta en 12 meses sin Cuota inicial con ADDI."
     }
   ];
 
-  const bannerBikes = [
+  // Testimonials Carousel Component
+const TestimonialsCarousel: React.FC = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
+  const allTestimonials = [
+    // Testimonios de motos
+    ...TESTIMONIALS,
+    // Testimonios de celulares
+    {
+      id: 'phone1',
+      name: 'María Rodríguez',
+      location: 'Bogotá, DC',
+      rating: 5,
+      image: 'https://i.postimg.cc/3J3LqQqF/woman-smiling-phone.jpg',
+      text: 'Compré el iPhone 15 Pro con DannyCell. Me ahorré $1.300.000 comparado con otras tiendas. El servicio fue excelente y lo recibí al día siguiente.'
+    },
+    {
+      id: 'phone2', 
+      name: 'Andrés Castillo',
+      location: 'Medellín, ANT',
+      rating: 5,
+      image: 'https://i.postimg.cc/6Q2fW8qB/man-professional-phone.jpg',
+      text: 'El Samsung S24 Ultra es una bestia. DannyCell me ofreció el mejor precio del mercado y con garantía oficial. Totalmente recomendado.'
+    },
+    {
+      id: 'phone3',
+      name: 'Sofía Martínez',
+      location: 'Cali, VAL',
+      rating: 5,
+      image: 'https://i.postimg.cc/9Qh6vJ7L/woman-happy-phone.jpg',
+      text: 'Mi Xiaomi 14 Pro funciona perfecto. DannyCell me asesoró muy bien en la elección y el precio fue increíble. Muy contenta con mi compra.'
+    },
+    {
+      id: 'phone4',
+      name: 'Luis Fernando',
+      location: 'Barranquilla, ATL',
+      rating: 5,
+      image: 'https://i.postimg.cc/L5X8b2K5/man-business-phone.jpg',
+      text: 'Excelente experiencia comprando el Redmi Note 13 Pro. DannyCell tiene precios competitivos y el servicio al cliente es de primer nivel.'
+    }
+  ];
+
+  const visibleTestimonials = 3;
+  const maxIndex = allTestimonials.length - visibleTestimonials;
+
+  const nextTestimonial = () => {
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+  };
+
+  const prevTestimonial = () => {
+    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
+  };
+
+  return (
+    <div className="relative">
+      <div className="flex items-center justify-between mb-8 lg:mb-12">
+        <button
+          onClick={prevTestimonial}
+          className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-brand-primary/50 rounded-full p-3 lg:p-4 transition-all hover:scale-110 group"
+        >
+          <ChevronLeft size={20} className="text-white group-hover:text-brand-primary lg:w-6 lg:h-6" />
+        </button>
+        
+        <div className="text-center flex-1">
+          <h2 className="text-3xl md:text-4xl lg:text-4xl font-black text-white mb-3 lg:mb-4 uppercase italic tracking-tight">
+            Pilotos DannyCell
+          </h2>
+          <p className="text-sm md:text-lg lg:text-xl text-gray-500 max-w-2xl mx-auto font-medium">
+            Ellos ya se movilizan con energía limpia y se conectan con la mejor tecnología.
+          </p>
+        </div>
+
+        <button
+          onClick={nextTestimonial}
+          className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-brand-primary/50 rounded-full p-3 lg:p-4 transition-all hover:scale-110 group"
+        >
+          <ChevronRight size={20} className="text-white group-hover:text-brand-primary lg:w-6 lg:h-6" />
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {allTestimonials.slice(currentIndex, currentIndex + visibleTestimonials).map((testimonial) => (
+          <div key={testimonial.id} className="bg-brand-card p-6 md:p-8 lg:p-10 rounded-3xl md:rounded-[2rem] border border-white/5 flex flex-col h-full hover:border-brand-primary/30 transition-all hover:shadow-glow">
+            <div className="flex items-center gap-1 text-brand-primary mb-4 lg:mb-8">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={16} fill="currentColor" className={`${i < testimonial.rating ? "drop-shadow-[0_0_5px_rgba(0,242,234,0.5)]" : "text-gray-800 fill-gray-800"} lg:w-5 lg:h-5`} />
+              ))}
+            </div>
+            <div className="mb-4 lg:mb-8 flex-grow relative">
+              <Quote size={32} className="absolute -top-3 -left-3 text-white/5 z-0 lg:w-12 lg:h-12 lg:-top-4 lg:-left-4" />
+              <p className="text-gray-300 italic relative z-10 leading-relaxed text-sm md:text-base lg:text-lg font-medium">"{testimonial.text}"</p>
+            </div>
+            <div className="flex items-center gap-3 lg:gap-5 mt-auto pt-4 lg:pt-8 border-t border-white/5">
+              <img src={testimonial.image} alt={testimonial.name} className="w-10 h-10 lg:w-14 lg:h-14 rounded-full object-cover border-2 border-brand-primary shadow-sm" />
+              <div>
+                <h4 className="font-bold text-white text-sm lg:text-lg">{testimonial.name}</h4>
+                <span className="text-[10px] lg:text-xs text-brand-muted font-bold uppercase tracking-wider">{testimonial.location}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const bannerBikes = [
     "https://i.postimg.cc/fbxVHn3c/Picassio-2-Photoroom.png",
     "https://i.postimg.cc/JhJpPn5R/bici-moto-electrica-ofero-magical-3-con-removebg-preview.png"
   ];
@@ -86,7 +320,7 @@ const Home: React.FC = () => {
       <div className="bg-[#FFEA00] overflow-hidden py-3 md:py-6 lg:py-10 border-y-2 md:border-y-4 border-black relative z-20 mt-4 md:mt-8 lg:mt-12 mb-4">
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-40 mix-blend-multiply pointer-events-none"></div>
         <div className="absolute inset-0 w-full h-full pointer-events-none z-30">
-             {bannerBikes.map((img, idx) => (
+             {bannerBikes.map((img: string, idx: number) => (
                 <img 
                   key={idx}
                   src={img} 
@@ -229,6 +463,73 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Additional Products Carousel */}
+      <section className="py-12 md:py-16 lg:py-24 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-8 md:mb-12 lg:mb-16 gap-4 md:gap-6 border-b border-white/5 pb-4 md:pb-6 lg:pb-8">
+          <div>
+            <div className="inline-flex items-center gap-2 text-brand-primary mb-2 md:mb-3">
+              <Package size={16} className="animate-pulse lg:w-5 lg:h-5" />
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em]">Más Productos</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white uppercase italic tracking-tighter leading-none mb-2 md:mb-3">
+              Explora Nuestro <span className="text-brand-primary">Catálogo</span>
+            </h2>
+            <p className="text-gray-400 text-sm md:text-base lg:text-lg max-w-2xl font-medium">
+              Descubre más productos increíbles que no te puedes perder. Motos eléctricas y celulares de última generación.
+            </p>
+          </div>
+        </div>
+
+        {/* Carousel Container */}
+        <div className="relative group">
+          {/* Navigation Buttons */}
+          <button 
+            onClick={() => {
+              const carousel = document.getElementById('additional-products-carousel');
+              if (carousel) {
+                carousel.scrollBy({ left: -320, behavior: 'smooth' });
+              }
+            }}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/80 hover:bg-black text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Anterior"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          
+          <button 
+            onClick={() => {
+              const carousel = document.getElementById('additional-products-carousel');
+              if (carousel) {
+                carousel.scrollBy({ left: 320, behavior: 'smooth' });
+              }
+            }}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-black/80 hover:bg-black text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Siguiente"
+          >
+            <ChevronRight size={20} />
+          </button>
+
+          {/* Carousel Track */}
+          <div 
+            id="additional-products-carousel"
+            className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4 px-2"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {PRODUCTS.filter(p => !p.isFeatured).map(product => (
+              <div key={product.id} className="flex-shrink-0 w-72 md:w-80">
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-10 md:mt-12 text-center">
+          <Link to="/catalogo" className="inline-block bg-brand-primary hover:bg-brand-primary/90 text-black px-8 py-3 rounded-xl font-bold uppercase tracking-wider text-sm transition-all hover:scale-105 hover:shadow-lg hover:shadow-brand-primary/20">
+            Ver Catálogo Completo
+          </Link>
+        </div>
+      </section>
+
       {/* AI QUIZ TRIGGER */}
       <section className="bg-gradient-to-r from-brand-secondary/20 via-black to-brand-primary/20 py-10 md:py-14 lg:py-16 border-y border-white/10 relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
@@ -238,8 +539,8 @@ const Home: React.FC = () => {
                       <Brain size={16} className="animate-pulse lg:w-5 lg:h-5" />
                       <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em]">Smart Advisor</span>
                   </div>
-                  <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white uppercase italic tracking-tighter leading-none mb-3 md:mb-4">¿No sabes cuál elegir?</h2>
-                  <p className="text-gray-300 text-sm md:text-base lg:text-lg font-medium max-w-xl mx-auto md:mx-0">Responde 3 preguntas simples y nuestra IA encontrará la moto perfecta.</p>
+                  <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white uppercase italic tracking-tighter leading-none mb-3 md:mb-4">¿No sabes qué moto o celular elegir?</h2>
+                  <p className="text-gray-300 text-sm md:text-base lg:text-lg font-medium max-w-xl mx-auto md:mx-0">Responde 3 preguntas simples y nuestra IA encontrará la moto o el celular perfecto.</p>
               </div>
               <button 
                 onClick={() => setQuizOpen(true)}
@@ -290,6 +591,102 @@ const Home: React.FC = () => {
              <div className="text-center"><span className="block text-3xl lg:text-5xl font-black text-white mb-1 lg:mb-2 font-mono">50Ton</span><span className="text-[10px] md:text-xs text-brand-secondary font-bold uppercase tracking-[0.2em]">CO2 Ahorrado</span></div>
              <div className="text-center"><span className="block text-3xl lg:text-5xl font-black text-white mb-1 lg:mb-2 font-mono">100%</span><span className="text-[10px] md:text-xs text-brand-accent font-bold uppercase tracking-[0.2em]">Satisfacción</span></div>
              <div className="text-center"><span className="block text-3xl lg:text-5xl font-black text-white mb-1 lg:mb-2 font-mono">24/7</span><span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-[0.2em]">Soporte</span></div>
+          </div>
+        </div>
+      </section>
+
+      {/* PHONE REVOLUTION SECTION */}
+      <section className="py-12 md:py-16 lg:py-24 bg-black relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-[200px] lg:w-[800px] h-[200px] lg:h-[800px] bg-brand-secondary/5 rounded-full blur-[80px] lg:blur-[150px] pointer-events-none"></div>
+        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-10 md:mb-16 lg:mb-20">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 md:mb-5 lg:mb-6 uppercase italic tracking-tighter">
+              Revolución <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-secondary to-brand-accent">Móvil</span>
+            </h2>
+            <p className="text-sm md:text-lg lg:text-xl text-gray-400 max-w-2xl mx-auto font-medium">Más que un celular, es tu conexión con el futuro.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6 lg:gap-8">
+             <div className="bg-[#111] p-6 md:p-8 lg:p-10 rounded-3xl md:rounded-[2rem] lg:rounded-[2.5rem] border border-white/10 hover:border-brand-secondary/30 transition-all group hover:-translate-y-2 relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity"><Camera size={80} className="text-white lg:w-[120px] lg:h-[120px]" /></div>
+                <div className="bg-brand-secondary/10 w-12 h-12 lg:w-16 lg:h-16 rounded-2xl flex items-center justify-center text-brand-secondary mb-4 lg:mb-8 group-hover:scale-110 transition-transform"><Camera size={24} className="lg:w-8 lg:h-8" /></div>
+                <h3 className="text-xl lg:text-3xl font-black text-white mb-2 lg:mb-4 uppercase italic">Cámaras Pro</h3>
+                <p className="text-gray-400 leading-relaxed font-medium text-sm lg:text-lg">Fotografía profesional en tu bolsillo. Captura momentos como nunca antes.</p>
+             </div>
+             <div className="bg-[#111] p-6 md:p-8 lg:p-10 rounded-3xl md:rounded-[2rem] lg:rounded-[2.5rem] border border-white/10 hover:border-brand-accent/30 transition-all group hover:-translate-y-2 relative overflow-hidden">
+                 <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity"><Zap size={80} className="text-white lg:w-[120px] lg:h-[120px]" /></div>
+                 <div className="bg-brand-accent/10 w-12 h-12 lg:w-16 lg:h-16 rounded-2xl flex items-center justify-center text-brand-accent mb-4 lg:mb-8 group-hover:scale-110 transition-transform"><Zap size={24} className="lg:w-8 lg:h-8" /></div>
+                 <h3 className="text-xl lg:text-3xl font-black text-white mb-2 lg:mb-4 uppercase italic">Rendimiento Extremo</h3>
+                 <p className="text-gray-400 leading-relaxed font-medium text-sm lg:text-lg">Procesadores de última generación. Juegos, multitarea y productividad sin límites.</p>
+             </div>
+             <div className="bg-[#111] p-6 md:p-8 lg:p-10 rounded-3xl md:rounded-[2rem] lg:rounded-[2.5rem] border border-white/10 hover:border-brand-primary/30 transition-all group hover:-translate-y-2 relative overflow-hidden">
+                 <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity"><Shield size={80} className="text-white lg:w-[120px] lg:h-[120px]" /></div>
+                 <div className="bg-brand-primary/10 w-12 h-12 lg:w-16 lg:h-16 rounded-2xl flex items-center justify-center text-brand-primary mb-4 lg:mb-8 group-hover:scale-110 transition-transform"><Shield size={24} className="lg:w-8 lg:h-8" /></div>
+                 <h3 className="text-xl lg:text-3xl font-black text-white mb-2 lg:mb-4 uppercase italic">Seguridad Total</h3>
+                 <p className="text-gray-400 leading-relaxed font-medium text-sm lg:text-lg">Datos protegidos con encriptación militar. Tu privacidad es nuestra prioridad.</p>
+             </div>
+          </div>
+          
+          <div className="mt-10 md:mt-16 lg:mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 border-t border-white/10 pt-8 md:pt-12 lg:pt-16">
+             <div className="text-center"><span className="block text-3xl lg:text-5xl font-black text-white mb-1 lg:mb-2 font-mono">500+</span><span className="text-[10px] md:text-xs text-brand-secondary font-bold uppercase tracking-[0.2em]">Celulares Vendidos</span></div>
+             <div className="text-center"><span className="block text-3xl lg:text-5xl font-black text-white mb-1 lg:mb-2 font-mono">99.9%</span><span className="text-[10px] md:text-xs text-brand-accent font-bold uppercase tracking-[0.2em]">Satisfacción</span></div>
+             <div className="text-center"><span className="block text-3xl lg:text-5xl font-black text-white mb-1 lg:mb-2 font-mono">1Año</span><span className="text-[10px] md:text-xs text-brand-primary font-bold uppercase tracking-[0.2em]">Garantía</span></div>
+             <div className="text-center"><span className="block text-3xl lg:text-5xl font-black text-white mb-1 lg:mb-2 font-mono">24/7</span><span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-[0.2em]">Soporte</span></div>
+          </div>
+        </div>
+      </section>
+
+      {/* PHONE SAVINGS CALCULATOR */}
+      <section className="py-12 md:py-16 lg:py-24 bg-[#080808] relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-secondary/5 to-transparent opacity-20"></div>
+        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-10 md:mb-16 lg:mb-20">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 md:mb-5 lg:mb-6 uppercase italic tracking-normal">
+              Tu <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-secondary to-brand-accent">Billetera</span><br className="md:hidden" /> te lo Agradecerá
+            </h2>
+            <p className="text-sm md:text-lg lg:text-xl text-gray-400 max-w-2xl mx-auto font-medium">Plan tradicional vs DannyCell. Calcula cuánto estás ahorrando.</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <PhoneCalculator />
+            {/* Benefits */}
+            <div className="space-y-6">
+              <div className="bg-[#111] p-6 rounded-2xl border border-white/10">
+                <div className="flex items-start gap-4">
+                  <div className="bg-green-500/20 p-2 rounded-lg">
+                    <TrendingDown className="text-green-400" size={20} />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold mb-1">Sin Compromisos</h4>
+                    <p className="text-gray-400 text-sm">Olvidate de contratos atadores. Cambia cuando quieras.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-[#111] p-6 rounded-2xl border border-white/10">
+                <div className="flex items-start gap-4">
+                  <div className="bg-brand-secondary/20 p-2 rounded-lg">
+                    <Wifi className="text-brand-secondary" size={20} />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold mb-1">Red 5G Ultra Rápida</h4>
+                    <p className="text-gray-400 text-sm">La velocidad más rápida en todas nuestras redes. Disfruta streaming sin interrupciones.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-[#111] p-6 rounded-2xl border border-white/10">
+                <div className="flex items-start gap-4">
+                  <div className="bg-brand-accent/20 p-2 rounded-lg">
+                    <Smartphone className="text-brand-accent" size={20} />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold mb-1">Celular Nuevo</h4>
+                    <p className="text-gray-400 text-sm">El último modelo sin pagar de más. Financiamiento sin intereses.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -361,7 +758,7 @@ const Home: React.FC = () => {
         <div className="absolute bottom-0 w-full h-px bg-gradient-to-r from-transparent via-brand-primary/50 to-transparent"></div>
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="text-center mb-10 md:mb-12 lg:mb-16">
-                <div className="inline-flex items-center gap-2 bg-white/5 text-white font-black px-3 py-1.5 md:px-4 md:py-2 rounded-full text-[10px] md:text-xs mb-3 md:mb-4 border border-white/10 uppercase tracking-[0.2em]">
+                <div className="inline-flex items-center gap-2 bg-white/5 text-white font-black px-4 py-1.5 md:px-5 md:py-2 rounded-full text-[10px] md:text-xs mb-3 md:mb-4 border border-white/10 uppercase tracking-[0.2em]">
                     <Calculator size={12} className="md:w-3.5 md:h-3.5" /> Tu Bolsillo te lo Agradecerá
                 </div>
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white uppercase italic tracking-tighter leading-tight">Gasolina <span className="text-red-500">VS</span> Eléctrica</h2>
@@ -434,32 +831,7 @@ const Home: React.FC = () => {
       {/* Testimonials */}
       <section className="py-12 md:py-16 lg:py-24 bg-brand-bg border-y border-white/5">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 md:mb-16 lg:mb-20">
-            <h2 className="text-3xl md:text-4xl lg:text-4xl font-black text-white mb-3 lg:mb-4 uppercase italic tracking-tight">{t('testimonials_title')}</h2>
-            <p className="text-sm md:text-lg lg:text-xl text-gray-500 max-w-2xl mx-auto font-medium">{t('testimonials_subtitle')}</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {TESTIMONIALS.map((testimonial) => (
-              <div key={testimonial.id} className="bg-brand-card p-6 md:p-8 lg:p-10 rounded-3xl md:rounded-[2rem] border border-white/5 flex flex-col h-full hover:border-brand-primary/30 transition-all hover:shadow-glow">
-                <div className="flex items-center gap-1 text-brand-primary mb-4 lg:mb-8">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={16} fill="currentColor" className={`${i < testimonial.rating ? "drop-shadow-[0_0_5px_rgba(0,242,234,0.5)]" : "text-gray-800 fill-gray-800"} lg:w-5 lg:h-5`} />
-                  ))}
-                </div>
-                <div className="mb-4 lg:mb-8 flex-grow relative">
-                  <Quote size={32} className="absolute -top-3 -left-3 text-white/5 z-0 lg:w-12 lg:h-12 lg:-top-4 lg:-left-4" />
-                  <p className="text-gray-300 italic relative z-10 leading-relaxed text-sm md:text-base lg:text-lg font-medium">"{testimonial.text}"</p>
-                </div>
-                <div className="flex items-center gap-3 lg:gap-5 mt-auto pt-4 lg:pt-8 border-t border-white/5">
-                  <img src={testimonial.image} alt={testimonial.name} className="w-10 h-10 lg:w-14 lg:h-14 rounded-full object-cover border-2 border-brand-primary shadow-sm" />
-                  <div>
-                    <h4 className="font-bold text-white text-sm lg:text-lg">{testimonial.name}</h4>
-                    <span className="text-[10px] lg:text-xs text-brand-muted font-bold uppercase tracking-wider">{testimonial.location}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <TestimonialsCarousel />
         </div>
       </section>
 

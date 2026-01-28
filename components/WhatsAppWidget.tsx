@@ -25,7 +25,7 @@ const WhatsAppWidget: React.FC = () => {
           </button>
           <div className="flex flex-col gap-1 pr-6">
             <h4 className="font-bold text-gray-800 text-sm">¡Bienvenido a DannyCell Power!</h4>
-            <p className="text-gray-600 text-sm">¿Cómo podemos ayudarte con tu movilidad?</p>
+            <p className="text-gray-600 text-sm">¿Cómo podemos ayudarte?</p>
           </div>
           {/* Triángulo de la burbuja */}
           <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white transform rotate-45 border-b border-r border-gray-100"></div>

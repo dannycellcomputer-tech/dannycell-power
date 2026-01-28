@@ -4,6 +4,21 @@ export interface ProductSpec {
   autonomy: string;
   maxSpeed: string;
   chargingTime: string;
+  weight?: string;
+  maxLoad?: string;
+  frame?: string;
+  incline?: string;
+}
+
+export interface PhoneSpec {
+  processor: string;
+  ram: string;
+  storage: string;
+  camera: string;
+  battery: string;
+  screen: string;
+  os: string;
+  connectivity?: string | string[];
 }
 
 export interface ProductComponents {
@@ -12,6 +27,15 @@ export interface ProductComponents {
   display: string;
   lights: string;
   security?: string[];
+  legalRequirements?: string;
+}
+
+export interface PhoneComponents {
+  os?: string;
+  connectivity: string | string[];
+  camera?: string;
+  screen?: string;
+  accessories?: string[];
 }
 
 export interface Product {
@@ -23,13 +47,15 @@ export interface Product {
   price: number;
   image: string;
   images?: string[];
-  specs: ProductSpec;
-  specs_en?: ProductSpec;
-  components: ProductComponents;
-  components_en?: ProductComponents;
+  starterImage?: string;
+  availableColors: string[];
+  specs: ProductSpec | PhoneSpec;
+  specs_en?: ProductSpec | PhoneSpec;
+  components: ProductComponents | PhoneComponents;
+  components_en?: ProductComponents | PhoneComponents;
   isFeatured: boolean;
   isBestSeller?: boolean;
-  availableColors?: string[]; // Nuevo campo para colores específicos
+  type: 'motorcycle' | 'phone';
 }
 
 export interface CartItem extends Product {

@@ -2,20 +2,23 @@ import React from 'react';
 import { PRODUCTS } from '../constants';
 import ProductCard from '../components/ProductCard';
 import { useStore } from '../context/StoreContext';
-import { Zap, Wind } from 'lucide-react';
+import { Zap, Wind, Smartphone } from 'lucide-react';
 
 const Catalog: React.FC = () => {
   const { t } = useStore();
 
   // Categorizar productos
   // IDs específicos para la sección de Scooters/Patinetas
-  const scooterIds = ['a6l-kick', 'flex-f3', 'trailx-t3'];
+  const scooterIds = ['a6l-kick', 'flex-f3', 'trailx-t3', "t1-scooter"];
 
-  // 1. Scooters Urbanos (Kickscooters + Flex F3 + TrailX T3)
+  // 1. Celulares (productos con type: 'phone')
+  const celulares = PRODUCTS.filter(p => p.type === 'phone');
+  
+  // 2. Scooters Urbanos (Kickscooters + Flex F3 + TrailX T3 + T1)
   const kickscooters = PRODUCTS.filter(p => scooterIds.includes(p.id));
   
-  // 2. Motos Eléctricas (Todo lo que no está en la lista de scooters)
-  const motos = PRODUCTS.filter(p => !scooterIds.includes(p.id));
+  // 3. Motos Eléctricas (Todo lo que no es scooter ni celular)
+  const motos = PRODUCTS.filter(p => !scooterIds.includes(p.id) && p.type !== 'phone');
 
   return (
     <div className="min-h-screen py-16 bg-brand-bg text-white">
@@ -38,6 +41,21 @@ const Catalog: React.FC = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {motos.map(product => (
+                    <ProductCard key={product.id} product={product} />
+                ))}
+                </div>
+            </div>
+        )}
+
+        {/* Sección Celulares */}
+        {celulares.length > 0 && (
+            <div className="mb-20">
+                <div className="flex items-center gap-3 mb-8 border-b border-white/10 pb-4">
+                    <Smartphone className="text-brand-secondary" size={28} />
+                    <h2 className="text-3xl font-black uppercase italic tracking-wide">Celulares</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {celulares.map(product => (
                     <ProductCard key={product.id} product={product} />
                 ))}
                 </div>

@@ -24,26 +24,30 @@ app.post("/crear-preferencia", async (req, res) => {
   try {
     const { title, price, image } = req.body;
     
+    console.log('Datos recibidos:', { title, price, image });
+    
     const preference = await mercadopago.preferences.create({
       items: [
         {
-          title: title || "Producto DannyCell",
+          title,
+          unit_price: Number(price),
           quantity: 1,
-          unit_price: Number(price) || 50000,
-          picture_url: image || ""
+          currency_id: "COP",
+          picture_url: image
         }
       ],
       back_urls: {
-        success: "https://dannycellpower.com/gracias",
-        failure: "https://dannycellpower.com/error",
-        pending: "https://dannycellpower.com/pendiente"
+        success: "https://dannycellpower.web.app/gracias",
+        failure: "https://dannycellpower.web.app/error",
+        pending: "https://dannycellpower.web.app/pendiente"
       },
       auto_return: "approved"
     });
 
+    console.log('Preferencia creada:', preference.body.id);
     res.json({ id: preference.body.id });
   } catch (error) {
-    console.error(error);
+    console.error('Error creando preferencia:', error);
     res.status(500).json({ error: "Error creando preferencia" });
   }
 });

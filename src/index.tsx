@@ -1,16 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import './index.css'; // Importante para cargar los estilos
+import { HelmetProvider } from 'react-helmet-async';
+import App from './App.tsx';
+import './index.css';
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
+
 if (!rootElement) {
-  throw new Error("Could not find root element to mount to");
+  throw new Error("No se encontró el div #root");
 }
 
-const root = ReactDOM.createRoot(rootElement);
-root.render(
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <App />
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
   </React.StrictMode>
 );
+
+// Service Worker Registration - Solo en producción
+if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js');
+      console.log('Service Worker registrado con éxito:', registration);
+    } catch (error) {
+      console.error('Error al registrar Service Worker:', error);
+    }
+  });
+}
+

@@ -59,8 +59,8 @@ const CompareModal: React.FC = () => {
         
         // 1. Encontrar la más potente (Velocidad + Motor) - "ALPHA UNIT"
         const performanceWinner = [...compareList].sort((a, b) => {
-            const speedA = extractNumber(a.specs.maxSpeed);
-            const speedB = extractNumber(b.specs.maxSpeed);
+            const speedA = extractNumber((a.specs as any).maxSpeed || '0');
+            const speedB = extractNumber((b.specs as any).maxSpeed || '0');
             // Si velocidad es igual, desempatar por precio (la más cara suele tener mejores componentes)
             if (speedB === speedA) return b.price - a.price;
             return speedB - speedA;
@@ -196,19 +196,19 @@ const CompareModal: React.FC = () => {
                                     <div className="space-y-4 text-sm">
                                         <div className="bg-black/30 p-3 rounded-lg border border-white/5 flex justify-between items-center">
                                             <div className="text-gray-500 text-[10px] font-bold uppercase flex items-center gap-2"><Zap size={14} className="text-brand-primary" /> Motor</div>
-                                            <div className="text-white font-bold">{product.specs.motor}</div>
+                                            <div className="text-white font-bold">{(product.specs as any).motor || 'N/A'}</div>
                                         </div>
                                         <div className="bg-black/30 p-3 rounded-lg border border-white/5 flex justify-between items-center">
                                             <div className="text-gray-500 text-[10px] font-bold uppercase flex items-center gap-2"><Battery size={14} className="text-brand-secondary" /> Batería</div>
-                                            <div className="text-white font-bold text-right text-xs max-w-[60%]">{product.specs.battery}</div>
+                                            <div className="text-white font-bold text-right text-xs max-w-[60%]">{(product.specs as any).battery || 'N/A'}</div>
                                         </div>
                                         <div className="bg-black/30 p-3 rounded-lg border border-white/5 flex justify-between items-center">
                                             <div className="text-gray-500 text-[10px] font-bold uppercase flex items-center gap-2"><Gauge size={14} className="text-brand-accent" /> Vel. Max</div>
-                                            <div className="text-white font-bold">{product.specs.maxSpeed}</div>
+                                            <div className="text-white font-bold">{(product.specs as any).maxSpeed || 'N/A'}</div>
                                         </div>
                                         <div className="bg-black/30 p-3 rounded-lg border border-white/5 flex justify-between items-center">
                                             <div className="text-gray-500 text-[10px] font-bold uppercase flex items-center gap-2"><Check size={14} className="text-green-500" /> Rango</div>
-                                            <div className="text-white font-bold">{product.specs.autonomy}</div>
+                                            <div className="text-white font-bold">{(product.specs as any).autonomy || 'N/A'}</div>
                                         </div>
                                     </div>
 

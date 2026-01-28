@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, User, Lock } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
-import { LOGO_URL } from '../constants';
+import { LOCAL_LOGO_URL } from '../constants';
 
 const LoginModal: React.FC = () => {
   const { isLoginModalOpen, setLoginModalOpen, login, t } = useStore();
@@ -37,10 +37,10 @@ const LoginModal: React.FC = () => {
         <div className="text-center mb-8">
           <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/10 shadow-glow">
             <img 
-              src={LOGO_URL} 
+              src={LOCAL_LOGO_URL} 
               alt="Logo" 
               referrerPolicy="no-referrer"
-              className="w-16 h-16 object-contain" 
+              className="w-16 h-16 object-cover" 
             />
           </div>
           <h2 className="text-2xl font-black text-white uppercase italic">{t('login')}</h2>

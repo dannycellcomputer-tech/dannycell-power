@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, ShoppingCart, Smartphone, Globe, User, LogOut, Settings, Bike, Search } from 'lucide-react';
+import { Menu, X, ShoppingCart, Smartphone, Globe, LogOut, Settings, Bike, Search } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
-import { LOGO_URL } from '../constants';
+import { LOCAL_LOGO_URL } from '../constants';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { 
     cartCount, 
     user, 
-    setLoginModalOpen, 
     logout, 
     language, 
     toggleLanguage, 
@@ -30,10 +29,10 @@ const Navbar: React.FC = () => {
                   <div className="absolute inset-0 bg-brand-primary blur-md opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
                   {/* Logo responsive: h-10 mobile, h-12 tablet, h-16 desktop */}
                   <img 
-                    src={LOGO_URL} 
+                    src={LOCAL_LOGO_URL} 
                     alt="DannyCell Logo" 
                     referrerPolicy="no-referrer"
-                    className="h-10 md:h-12 lg:h-20 w-auto object-contain relative drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] transition-all duration-300" 
+                    className="h-8 md:h-10 lg:h-14 w-auto object-cover relative drop-shadow-[0_0_5px_rgba(255,255,255,0.5)] transition-all duration-300" 
                   />
                 </div>
                 <div className="flex flex-col justify-center overflow-visible pl-2">
@@ -41,7 +40,7 @@ const Navbar: React.FC = () => {
                     DannyCell<span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-blue-500 pr-2 ml-1">Power</span>
                   </span>
                   <span className="text-[8px] md:text-[9px] lg:text-[10px] text-gray-400 font-bold tracking-[0.4em] uppercase group-hover:text-brand-primary transition-colors hidden sm:block">
-                    Electric Moto
+                    Inteligencia que te mueve.
                   </span>
                 </div>
               </Link>
@@ -67,14 +66,7 @@ const Navbar: React.FC = () => {
                     >
                       <LogOut size={14} /> {user.name}
                     </button>
-                  ) : (
-                    <button 
-                      onClick={() => setLoginModalOpen(true)}
-                      className="text-gray-400 hover:text-brand-primary hover:bg-white/5 px-3 py-2 rounded-lg text-[10px] font-bold transition-all border border-transparent hover:border-white/10 uppercase tracking-widest flex items-center gap-2"
-                    >
-                      <User size={14} /> {t('login')}
-                    </button>
-                  )}
+                  ) : null}
                 </div>
 
                 <Link to="/" className="text-gray-300 hover:text-white hover:bg-white/5 px-4 py-2 rounded-lg text-sm font-bold transition-all border border-transparent hover:border-white/10 uppercase tracking-wide">{t('nav_home')}</Link>
@@ -153,11 +145,7 @@ const Navbar: React.FC = () => {
                    <button onClick={logout} className="w-full text-left text-brand-accent font-bold py-2 text-sm flex items-center gap-2 uppercase">
                      <LogOut size={18} /> {t('logout')}
                    </button>
-                ) : (
-                  <button onClick={() => { setIsOpen(false); setLoginModalOpen(true); }} className="w-full text-left text-gray-400 hover:text-brand-primary py-2 text-sm font-medium flex items-center gap-2 uppercase">
-                     <User size={18} /> {t('login')}
-                  </button>
-                )}
+                ) : null}
                 
                 <button onClick={() => { setIsOpen(false); toggleLanguage(); }} className="w-full text-left text-gray-400 hover:text-brand-primary py-2 text-sm font-medium flex items-center gap-2 uppercase">
                    <Globe size={18} /> {language === 'es' ? 'Switch to English' : 'Cambiar a Español'}

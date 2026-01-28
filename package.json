@@ -9,19 +9,33 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "lucide-react": "^0.300.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^6.20.0",
-    "lucide-react": "^0.300.0"
+    "react-helmet-async": "^2.0.5",
+    "react-router-dom": "^6.20.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.2.0",
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.19",
     "typescript": "^5.0.0",
-    "vite": "^5.0.0",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.32",
-    "tailwindcss": "^3.4.0"
-  }
+    "vite": "^5.0.0"
+  },
+  "description": "<div align=\"center\"> <img width=\"1200\" height=\"475\" alt=\"GHBanner\" src=\"https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6\" /> </div>",
+  "main": "postcss.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dannycellcomputer-tech/dannycell-power.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dannycellcomputer-tech/dannycell-power/issues"
+  },
+  "homepage": "https://github.com/dannycellcomputer-tech/dannycell-power#readme"
 }

@@ -96,6 +96,35 @@ const ProductDetail: React.FC = () => {
   // Lógica Carousel
   const gallery = product.images && product.images.length > 0 ? product.images : [product.image];
   
+  // Precargar imágenes de forma optimizada para evitar cache excesivo
+  React.useEffect(() => {
+    // Solo precargar las primeras 3 imágenes para carga inicial rápida
+    const imagesToPreload = gallery.slice(0, 3);
+    
+    // Precargar imagen de representación si existe
+    if ((product as any).starterImage) {
+      imagesToPreload.push((product as any).starterImage);
+    }
+    
+    // Precargar con retraso para no sobrecargar
+    const preloadImages = () => {
+      imagesToPreload.forEach((imageUrl, index) => {
+        setTimeout(() => {
+          const img = new Image();
+          img.src = imageUrl;
+        }, index * 100); // 100ms entre cada imagen
+      });
+    };
+    
+    // Ejecutar después de que la página esté completamente cargada
+    if (document.readyState === 'complete') {
+      preloadImages();
+    } else {
+      window.addEventListener('load', preloadImages);
+      return () => window.removeEventListener('load', preloadImages);
+    }
+  }, [gallery.length, (product as any).starterImage]); // Dependencias más específicas
+  
   const nextImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
     setCurrentImageIndex((prev) => (prev === gallery.length - 1 ? 0 : prev + 1));
@@ -142,9 +171,9 @@ const ProductDetail: React.FC = () => {
     return Math.max(...matches.map(Number));
   };
 
-  const speedVal = extractNumber(specs.maxSpeed);
-  const rangeVal = extractNumber(specs.autonomy);
-  const powerVal = extractNumber(specs.motor);
+  const speedVal = extractNumber((specs as any).maxSpeed);
+  const rangeVal = extractNumber((specs as any).autonomy);
+  const powerVal = extractNumber((specs as any).motor);
 
   // Referencias base para el 100% (Basado en el tope de gama NMOTOR)
   const REF_SPEED = 120; // km/h
@@ -165,6 +194,20 @@ const ProductDetail: React.FC = () => {
   const handleAddToCart = () => {
     const productWithColor = { ...product, selectedColor };
     addToCart(productWithColor);
+  };
+
+  const handleAddiCheckout = () => {
+    // Crear mensaje para WhatsApp con información de ADDI
+    const addiMessage = encodeURIComponent(
+      `¡Hola! Estoy interesado en comprar el producto ${name} con ADDI a cuotas.\n\n` +
+      `💳 *Producto:* ${name}\n` +
+      `💰 *Precio:* ${formatPrice(totalPrice)}\n` +
+      `📦 *Referencia:* ${product.id}\n\n` +
+      `Me gustaría información sobre las cuotas disponibles con ADDI y cómo proceder con la compra.`
+    );
+    
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER.replace(/[^\d]/g, '')}?text=${addiMessage}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   const whatsappMessage = encodeURIComponent(`Hola DannyCell Power, me interesa la moto "${name}" en color *${selectedColor}*. Precio: ${formatPrice(totalPrice)}.`);
@@ -202,6 +245,9 @@ const ProductDetail: React.FC = () => {
                         src={gallery[currentImageIndex]} 
                         alt={`${name} view ${currentImageIndex + 1}`} 
                         className="w-full h-full object-contain relative z-10 drop-shadow-[0_0_40px_rgba(0,0,0,0.6)] animate-in fade-in duration-300"
+                        loading="lazy"
+                        fetchPriority="auto"
+                        decoding="async"
                         style={{
                             transform: isZoomed ? 'scale(1.5)' : `scale(${getBaseScale()})`,
                             transformOrigin: `${mousePos.x}% ${mousePos.y}%`,
@@ -253,6 +299,9 @@ const ProductDetail: React.FC = () => {
                                     src={img} 
                                     alt={`Thumbnail ${idx}`} 
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    loading={idx === 0 ? "eager" : "lazy"}
+                                    fetchPriority={idx === 0 ? "high" : "low"}
+                                    decoding="async"
                                   />
                               </button>
                           ))}
@@ -442,7 +491,7 @@ const ProductDetail: React.FC = () => {
 
                   <div className="relative z-10">
                       <div className="flex items-end gap-2 mb-2">
-                        <span className="text-2xl md:text-3xl font-black text-white">{specs.chargingTime}</span>
+                        <span className="text-2xl md:text-3xl font-black text-white">{(specs as any).chargingTime}</span>
                         <span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase mb-1.5">0% a 100%</span>
                       </div>
 
@@ -489,6 +538,18 @@ const ProductDetail: React.FC = () => {
                 </a>
                 
                 <button
+                  onClick={handleAddiCheckout}
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-black py-2 md:py-3 rounded-xl md:rounded-2xl flex items-center justify-center gap-2 md:gap-3 transition-all uppercase tracking-wide text-sm md:text-lg shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1"
+                >
+                  <img 
+                    src="/addi-logo.png" 
+                    alt="ADDI" 
+                    className="w-10 h-10 md:w-14 md:h-14 object-contain bg-transparent self-center flex-shrink-0"
+                  />
+                  Comprar con ADDI a cuotas
+                </button>
+                
+                <button
                   onClick={handleAddToCart}
                   className="w-full bg-brand-card hover:bg-white/10 border-2 border-white/10 text-white font-bold py-3 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-2 md:gap-3 transition-all uppercase tracking-wide text-xs md:text-sm hover:border-white/30"
                 >
@@ -512,11 +573,11 @@ const ProductDetail: React.FC = () => {
                       <div className="mt-3 md:mt-4 grid grid-cols-2 gap-3 md:gap-4">
                          <div>
                             <span className="text-[10px] md:text-xs text-gray-500 uppercase font-bold block mb-1">Frenos</span>
-                            <span className="text-white font-medium">{components.brakes}</span>
+                            <span className="text-white font-medium">{(components as any).brakes}</span>
                          </div>
                          <div>
                             <span className="text-[10px] md:text-xs text-gray-500 uppercase font-bold block mb-1">Llantas</span>
-                            <span className="text-white font-medium">{components.tires}</span>
+                            <span className="text-white font-medium">{(components as any).tires}</span>
                          </div>
                       </div>
                     </div>
@@ -536,11 +597,11 @@ const ProductDetail: React.FC = () => {
                       <div className="grid grid-cols-2 gap-y-4 md:gap-y-6 gap-x-3 md:gap-x-4">
                         <div>
                           <span className="block text-brand-primary text-[9px] md:text-[10px] font-black uppercase tracking-widest mb-1">Motor</span>
-                          <span className="text-sm md:text-base font-bold text-white">{specs.motor}</span>
+                          <span className="text-sm md:text-base font-bold text-white">{(specs as any).motor}</span>
                         </div>
                         <div>
                           <span className="block text-brand-primary text-[9px] md:text-[10px] font-black uppercase tracking-widest mb-1">Autonomía</span>
-                          <span className="text-sm md:text-base font-bold text-white">{specs.autonomy}</span>
+                          <span className="text-sm md:text-base font-bold text-white">{(specs as any).autonomy}</span>
                         </div>
                         <div>
                           <span className="block text-brand-primary text-[9px] md:text-[10px] font-black uppercase tracking-widest mb-1">Batería</span>
@@ -548,11 +609,11 @@ const ProductDetail: React.FC = () => {
                         </div>
                         <div>
                           <span className="block text-brand-primary text-[9px] md:text-[10px] font-black uppercase tracking-widest mb-1">Velocidad</span>
-                          <span className="text-sm md:text-base font-bold text-white">{specs.maxSpeed}</span>
+                          <span className="text-sm md:text-base font-bold text-white">{(specs as any).maxSpeed}</span>
                         </div>
                         <div>
                           <span className="block text-brand-primary text-[9px] md:text-[10px] font-black uppercase tracking-widest mb-1">Carga</span>
-                          <span className="text-sm md:text-base font-bold text-white">{specs.chargingTime}</span>
+                          <span className="text-sm md:text-base font-bold text-white">{(specs as any).chargingTime}</span>
                         </div>
                       </div>
                     </div>

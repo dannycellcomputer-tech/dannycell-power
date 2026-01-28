@@ -1,7 +1,7 @@
 import React from 'react';
 import { MessageCircle, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { LOGO_URL } from '../constants';
+import { LOCAL_LOGO_URL } from '../constants';
 import { useStore } from '../context/StoreContext';
 
 const Footer: React.FC = () => {
@@ -19,19 +19,19 @@ const Footer: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="p-2 bg-white/5 rounded-xl border border-white/10">
                 <img 
-                  src={LOGO_URL} 
+                  src={LOCAL_LOGO_URL} 
                   alt="DannyCell Logo" 
                   referrerPolicy="no-referrer"
-                  className="h-16 w-auto object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" 
+                  className="h-16 w-auto object-cover drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" 
                 />
               </div>
               <div className="overflow-visible">
                 <h3 className="text-2xl font-black text-white mb-0 leading-relaxed italic tracking-tighter pr-6 inline-block">DannyCell <span className="text-brand-primary">Power</span></h3>
-                <div className="text-[10px] font-bold text-gray-500 tracking-[0.3em] uppercase mt-1">Electric Moto</div>
+                <div className="text-[10px] font-bold text-gray-500 tracking-[0.3em] uppercase mt-1">Inteligencia que te mueve</div>
               </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs font-medium">
-              Revolucionando el transporte urbano. Motos eléctricas de alto rendimiento para un futuro sostenible y emocionante.
+              Revolucionando el transporte urbano. Motos eléctricas y celulares de alto rendimiento para un futuro sostenible y emocionante.
             </p>
           </div>
 
@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
                 <div className="bg-brand-primary/10 p-3 rounded-lg text-brand-primary group-hover:bg-brand-primary group-hover:text-black transition-all">
                   <Phone size={18} />
                 </div>
-                <span className="font-bold tracking-wide">+57 300 501 6723</span>
+                <span className="font-bold tracking-wide">+57 320 633 8184</span>
               </div>
               
               <div className="flex items-center gap-4 text-gray-300 text-sm group">
@@ -72,7 +72,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-white/5 pt-8 text-center text-xs text-gray-500 font-medium tracking-wide">
-          <p>&copy; {new Date().getFullYear()} DannyCell Power. Energía que te mueve.</p>
+          <p>&copy; {new Date().getFullYear()} DannyCell Power. Inteligencia que te mueve.</p>
         </div>
       </div>
     </footer>
