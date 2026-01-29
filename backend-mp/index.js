@@ -44,10 +44,17 @@ app.post("/crear-preferencia", async (req, res) => {
     
     console.log('✅ Datos extraídos:', { title, price, image });
     
-    // Si no hay datos, usar valores por defecto para debugging
-    const finalTitle = title || "Producto DannyCell";
-    const finalPrice = price ? Number(price) : 50000;
-    const finalImage = image || "";
+    // 🚫 SIN VALORES POR DEFECTO - PRODUCCIÓN REAL
+    if (!title || !price) {
+      console.error('❌ Faltan datos requeridos:', { title, price });
+      return res.status(400).json({
+        error: "Faltan datos del producto"
+      });
+    }
+    
+    const finalTitle = String(title);
+    const finalPrice = Number(price);
+    const finalImage = image ? String(image) : "";
     
     console.log('🎯 Datos finales:', { finalTitle, finalPrice, finalImage });
     
@@ -58,11 +65,11 @@ app.post("/crear-preferencia", async (req, res) => {
       external_reference: uniqueReference,
       items: [
         {
-          title: String(finalTitle),
+          title: finalTitle,
           unit_price: finalPrice,
           quantity: 1,
           currency_id: "COP",
-          picture_url: String(finalImage)
+          picture_url: finalImage
         }
       ],
       back_urls: {
