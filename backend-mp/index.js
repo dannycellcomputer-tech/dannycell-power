@@ -51,7 +51,11 @@ app.post("/crear-preferencia", async (req, res) => {
     
     console.log('🎯 Datos finales:', { finalTitle, finalPrice, finalImage });
     
+    // 🔥 FORZAR PREFERENCIA ÚNICA - SOLUCIÓN DEFINITIVA
+    const uniqueReference = `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
     const preferenceData = {
+      external_reference: uniqueReference,
       items: [
         {
           title: String(finalTitle),
@@ -69,7 +73,8 @@ app.post("/crear-preferencia", async (req, res) => {
       auto_return: "approved"
     };
     
-    console.log('📤 Enviando a Mercado Pago:', JSON.stringify(preferenceData, null, 2));
+    console.log('🚀 Enviando a MP:', JSON.stringify(preferenceData, null, 2));
+    console.log('🎫 External Reference:', uniqueReference);
     
     const preference = await mercadopago.preferences.create(preferenceData);
 
