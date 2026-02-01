@@ -3,15 +3,6 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-<<<<<<< HEAD
-  build: {
-    outDir: 'dist',
-  },
-  server: {
-    historyApiFallback: true,
-  }
-})
-=======
   base: '/', // Firebase Hosting sirve desde raíz
   build: {
     outDir: 'dist', // Firebase usa dist por defecto
@@ -22,7 +13,11 @@ export default defineConfig({
         chunkFileNames: 'assets/[name].[hash].js',
         entryFileNames: 'assets/[name].[hash].js'
       }
-    }
+    },
+    target: 'es2015' // Asegurar compatibilidad
+  },
+  define: {
+    global: 'globalThis' // Evitar problemas con global
   },
   server: {
     port: 3000,
@@ -31,4 +26,3 @@ export default defineConfig({
     port: 4173,
   },
 });
->>>>>>> c5231fc (Update backend to receive title, price, image - Fix Mercado Pago integration)

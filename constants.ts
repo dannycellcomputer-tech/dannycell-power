@@ -675,7 +675,7 @@ export const PRODUCTS: Product[] = [
     name_en: "Galaxy 5 Lite",
     description: "La Galaxy 5 Lite es la versión más ligera de nuestra gama. Ideal para uso urbano diario.",
     description_en: "The Galaxy 5 Lite is the lightest model in our range. Perfect for daily urban use",
-    price: 3200000,
+    price: 1000,
     isFeatured: true,
     type: 'motorcycle',
     isBestSeller: false,

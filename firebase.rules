@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Permitir lectura/escritura de pedidos
+    match /orders/{orderId} {
+      allow read, write: if request.time < timestamp.date(2025, 1, 1);
+    }
+    
+    // Permitir lectura de todos los pedidos
+    match /orders/{orderId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}
