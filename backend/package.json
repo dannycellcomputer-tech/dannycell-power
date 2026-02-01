@@ -1,0 +1,21 @@
+{
+  "name": "dannycell-backend-fixed",
+  "version": "1.0.0",
+  "description": "Backend DannyCell con precios dinámicos",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "mercadopago": "^2.0.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "keywords": ["mercadopago", "dannycell", "ecommerce"],
+  "author": "DannyCell Power",
+  "license": "MIT"
+}
